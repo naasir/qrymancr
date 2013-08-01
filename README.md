@@ -1,4 +1,12 @@
-qrymancr
-========
+```
+                                                   
+  ____ ________  ______ ___  ____ _____  __________
+ / __ `/ ___/ / / / __ `__ \/ __ `/ __ \/ ___/ ___/
+/ /_/ / /  / /_/ / / / / / / /_/ / / / / /__/ /    
+\__, /_/   \__, /_/ /_/ /_/\__,_/_/ /_/\___/_/     
+  /_/     /____/                                   
+```
 
-Conjures LINQ expressions from querystrings
+A .NET library for conjuring LINQ expressions from URL querystrings.
+
+_(under construction...stay tuned)_
