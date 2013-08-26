@@ -42,6 +42,52 @@ namespace Qrymancr
         public string ExpressionString { get; private set; }
 
         /// <summary>
+        /// Builds a LINQ query expression from the specified query string.
+        /// </summary>
+        /// <typeparam name="TFor">The type we want to build a query expression for.</typeparam>
+        /// <param name="queryString">The query string.</param>
+        /// <returns>The built LINQ query expression.</returns>
+        public static Expression<Func<TFor, bool>> Build(string queryString)
+        {
+            return Build(queryString, new List<string>());
+        }
+
+        /// <summary>
+        /// Builds a LINQ query expression from the specified query string.
+        /// </summary>
+        /// <typeparam name="TFor">The type we want to build a query expression for.</typeparam>
+        /// <param name="queryString">The query string.</param>
+        /// <param name="toIgnore">The list of parameters to ignore.</param>
+        /// <returns>The built LINQ query expression.</returns>
+        public static Expression<Func<TFor, bool>> Build(string queryString, IEnumerable<string> toIgnore)
+        {
+            return new Qrymancr<TFor>(queryString, toIgnore).Build();
+        }
+
+        /// <summary>
+        /// Builds a compiled LINQ query from the specified query string.
+        /// </summary>
+        /// <typeparam name="TFor">The type we want to build a query expression for.</typeparam>
+        /// <param name="queryString">The query string.</param>
+        /// <returns>The compiled LINQ query.</returns>
+        public static Func<TFor, bool> Compile(string queryString)
+        {
+            return Compile(queryString, new List<string>());
+        }
+
+        /// <summary>
+        /// Builds a compiled LINQ query from the specified query string.
+        /// </summary>
+        /// <typeparam name="TFor">The type we want to build a query expression for.</typeparam>
+        /// <param name="queryString">The query string.</param>
+        /// <param name="toIgnore">The list of parameters to ignore.</param>
+        /// <returns>The compiled LINQ query.</returns>
+        public static Func<TFor, bool> Compile(string queryString, IEnumerable<string> toIgnore)
+        {
+            return new Qrymancr<TFor>(queryString, toIgnore).Compile();
+        }
+
+        /// <summary>
         /// Builds this instance.
         /// </summary>
         /// <returns>The built LINQ query expression.</returns>
@@ -50,6 +96,15 @@ namespace Qrymancr
             return string.IsNullOrEmpty(this.ExpressionString)
                 ? null
                 : System.Linq.Dynamic.DynamicExpression.ParseLambda<TFor, bool>(this.ExpressionString);
+        }
+
+        /// <summary>
+        /// Compiles this instance.
+        /// </summary>
+        /// <returns>The compiled LINQ query.</returns>
+        public Func<TFor, bool> Compile()
+        {
+            return this.Build().Compile();
         }
 
         /// <summary>
