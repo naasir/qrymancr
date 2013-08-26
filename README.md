@@ -32,3 +32,28 @@ It seemed a bit ugly to me to break away from this convention for _slightly_ mor
 ## Summary
 
 Qrymancr is a .NET library that builds LINQ predicate expressions from URL querystrings. These querystrings can be simple or _slightly_ more complex as stated above. You can then use this predicate expression in a LINQ `where` clause to filter on a collection of items (or pass it to your LINQ-compatible ORM).
+
+## Supported comparison operators
+
+Qrymancr supports the following comparison operators:
+
+Operator | Description              | Example
+---------|--------------------------|---------
+=        | equals                   | ?prop=5
+!=       | not equals               | ?prop!=0
+>=       | greater than or equal to | ?prop>=7
+<=       | less than or equal to    | ?prop<=10
+^=       | starts with              | ?prop^=bo
+$=       | ends with                | ?prop$=ed
+*=       | contains                 | ?prop*=and
+
+## Supported logical operators
+
+Qrymancr has limited support for logical operators (for now). It currently supports:
+
+Operator | Description              | Example
+---------|--------------------------|---------
+&        | logical AND              | ?prop1=5&prop2>=3&prop3!=bob
+,        | logical OR*              | ?prop=michaelangelo,leornado,donatello,raphael
+
+> NOTE: logical OR is only supported for checking a *single* property against multiple values
