@@ -33,6 +33,38 @@ It seemed a bit ugly to me to break away from this convention for _slightly_ mor
 
 Qrymancr is a .NET library that builds LINQ predicate expressions from URL querystrings. These querystrings can be simple or _slightly_ more complex as stated above. You can then use this predicate expression in a LINQ `where` clause to filter on a collection of items (or pass it to your LINQ-compatible ORM).
 
+## Example
+
+Given the following class you'd like to query against:
+
+```C#
+class User
+{
+    public int Id { get; set; }
+    public string FullName { get; set; }
+    public string Email { get; set; }
+    public DateTime? Birthdate { get; set; }
+    public bool IsActive { get; set; }
+}
+```
+
+Here is how you would use Qrymancr to convert a query defined in a querystring to a LINQ predicate
+
+```C#
+var users = new List<User>
+{
+    new User{ FullName = "Bruce Wayne", Email = "bigbat@gmail.com", IsActive = true },
+    new User{ FullName = "Dick Grayson", Email = "night@wing.com", IsActive = true },
+    new User{ FullName = "Alfred Pennyworth", Email = "therealbat@gmail.com", IsActive = true },
+    new User{ FullName = "Victor Freiz", Email = "brain.freiz@gmail.com", IsActive = false }
+};
+
+// a query for all active users whose email address ends with 'gmail.com'
+var querystring = "?isactive=true&email$=gmail.com";
+var predicate = Qrymancr<User>.Compile(querystring);
+var filtered = users.Where(predicate);
+```
+
 ## Requirements
 
 ### Usage requirements
@@ -48,7 +80,7 @@ To start developing for the Qrymancr library, you'll need the following:
  * Microsoft .NET Framework `4.0+`
  * Microsoft Visual Studio `2010+`
  * Microsoft Powershell `2.0+`
- 
+
 ## Supported comparison operators
 
 Qrymancr supports the following comparison operators:
